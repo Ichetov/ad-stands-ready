@@ -1,0 +1,69 @@
+@import "./reset.css";
+@import "./variables.css";
+
+/* базовые настройки html */
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+/* базовые настройки body */
+body {
+  min-height: 100vh;
+  font-family: system-ui, -apple-system, Arial, sans-serif;
+  font-size: var(--font-size-md);
+  line-height: 1.5;
+
+  color: var(--color-text);
+  background: var(--color-bg);
+}
+
+/* корневой контейнер React */
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* контейнер для страниц */
+.container {
+  width: min(var(--container-width), 100% - 32px);
+  margin-inline: auto;
+}
+
+/* ссылки */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* кнопки */
+button {
+  border: none;
+  background: none;
+}
+
+/* изображения */
+img {
+  display: block;
+  max-width: 100%;
+}
+
+/* textarea resize */
+textarea {
+  resize: vertical;
+}
+
+/* scrollbar (опционально) */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
