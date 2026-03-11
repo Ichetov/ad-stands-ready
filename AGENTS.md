@@ -19,6 +19,7 @@ Run commands from `my-app/`.
 - `pnpm build`: run TypeScript project build (`tsc -b`) and produce production bundle.
 - `pnpm preview`: serve the production build locally.
 - `pnpm lint`: run ESLint across the project.
+- After each addition of new code or functionality, run `pnpm build` from `my-app/`.
 
 ## Coding Style & Naming Conventions
 - Language: TypeScript with React function components.
