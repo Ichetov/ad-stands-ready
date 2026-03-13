@@ -1,69 +1,134 @@
 @import "./reset.css";
 @import "./variables.css";
+@import "./container.css";
 
-/* базовые настройки html */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 html {
-  font-size: 16px;
-  scroll-behavior: smooth;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #111;
+  background: #fff;
 }
 
-/* базовые настройки body */
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+ul,
+ol {
+  margin: 0;
+}
+
 body {
-  min-height: 100vh;
-  font-family: system-ui, -apple-system, Arial, sans-serif;
-  font-size: var(--font-size-md);
-  line-height: 1.5;
-
-  color: var(--color-text);
-  background: var(--color-bg);
+  min-width: 320px;
 }
 
-/* корневой контейнер React */
-#root {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-/* контейнер для страниц */
-.container {
-  width: min(var(--container-width), 100% - 32px);
-  margin-inline: auto;
-}
-
-/* ссылки */
 a {
   color: inherit;
   text-decoration: none;
 }
 
-/* кнопки */
-button {
-  border: none;
-  background: none;
+button,
+input,
+textarea,
+select {
+  font: inherit;
 }
 
-/* изображения */
 img {
   display: block;
   max-width: 100%;
 }
 
-/* textarea resize */
-textarea {
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.pageMain {
+  flex: 1;
+  padding: 32px 0;
+}
+
+.sectionTitle {
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+
+.card {
+  border: 1px solid #ddd;
+  border-radius: 16px;
+  background: #fff;
+  padding: 20px;
+}
+
+.input,
+.textarea,
+.select {
+  width: 100%;
+  border: 1px solid #cfcfcf;
+  border-radius: 10px;
+  padding: 12px 14px;
+  outline: none;
+}
+
+.textarea {
+  min-height: 120px;
   resize: vertical;
 }
 
-/* scrollbar (опционально) */
-::-webkit-scrollbar {
-  width: 10px;
+.button {
+  border: none;
+  background: #111;
+  color: #fff;
+  padding: 12px 18px;
+  border-radius: 10px;
+  cursor: pointer;
 }
 
-::-webkit-scrollbar-thumb {
-  background: #d1d5db;
-  border-radius: 6px;
+.buttonSecondary {
+  border: 1px solid #111;
+  background: #fff;
+  color: #111;
+  padding: 12px 18px;
+  border-radius: 10px;
+  cursor: pointer;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #9ca3af;
+.grid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.formRow {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.stack16 {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.stack24 {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+@media (max-width: 768px) {
+  .grid2 {
+    grid-template-columns: 1fr;
+  }
 }
