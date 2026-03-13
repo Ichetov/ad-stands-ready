@@ -1,7 +1,7 @@
 import { Provider } from 'react-redux'
 import { configureStore } from '@reduxjs/toolkit'
-import { baseApi } from '@/shared/api/baseApi'
 import type { PropsWithChildren } from 'react'
+import { baseApi } from '@/shared/api/baseApi'
 
 const store = configureStore({
   reducer: {
