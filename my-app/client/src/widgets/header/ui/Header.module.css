@@ -1,0 +1,22 @@
+.header {
+  border-bottom: 1px solid #ececec;
+  background: #fff;
+}
+
+.inner {
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.nav {
+  display: flex;
+  gap: 18px;
+}
