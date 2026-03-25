@@ -20,8 +20,7 @@ export const HomePage = () => {
   return (
     <div className="page">
       <Header />
-
-      <main className="pageMain">
+<main className="pageMain">
         <div className="container">
           <div className="stack24">
             <h1 className="sectionTitle">Рекламные точки</h1>
@@ -29,7 +28,8 @@ export const HomePage = () => {
             <StandFilters
               mall={mall}
               search={search}
-              malls={malls.map((item) => item.mallName)}
+              malls={malls.map((item
+      ) => item.mallName)}
               onMallChange={setMall}
               onSearchChange={setSearch}
             />

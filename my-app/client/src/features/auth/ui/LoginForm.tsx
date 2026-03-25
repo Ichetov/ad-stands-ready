@@ -14,7 +14,7 @@ export const LoginForm = () => {
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault()
     setErrorText('')
-
+    console.log( login, password)
     try {
       const result = await loginRequest({ login, password }).unwrap()
       setToken(result.token)

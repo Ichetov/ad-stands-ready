@@ -13,8 +13,11 @@ export const AdminStandCreatePage = () => {
     const formData = new FormData()
     Array.from(files).forEach((file) => formData.append('images', file))
 
-    const result = await uploadImages(formData).unwrap()
-    return result.urls.map((url) => `${UPLOADS_URL}${url}`)
+
+    console.log()
+  const result = await uploadImages(formData).unwrap()
+      console.log()
+return result.urls.map((url) => `${UPLOADS_URL}${url}`)
   }
 
   const handleSubmit = async (values: {
