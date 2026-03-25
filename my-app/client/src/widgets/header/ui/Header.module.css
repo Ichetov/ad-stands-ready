@@ -1,22 +1,36 @@
 .header {
   border-bottom: 1px solid #ececec;
-  background: #fff;
+  background: var(--color-primary);
+}
+.header a {
+  transition: color 0.2s ease;
+}
+.header a:focus-visible {
+  outline: 3px solid var(--base-color);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+.header a:hover {
+  color: var(--base-color-hover);
 }
 
 .inner {
-  min-height: 72px;
+  min-height: 100px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 20px;
+  color: var(--color-bg);
 }
 
 .logo {
-  font-size: 24px;
+  font-size: clamp(20px, 6vw, 36px);
   font-weight: 700;
-}
+
+} 
 
 .nav {
   display: flex;
-  gap: 18px;
+  gap: 50px;
+  font-size: 22px;
 }
