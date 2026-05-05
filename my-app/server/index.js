@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import express from 'express'
 import cors from 'cors'
 import path from 'path'
@@ -6,6 +7,7 @@ import authRoutes from './routes/auth.js'
 import standsRoutes from './routes/stands.js'
 import requestsRoutes from './routes/requests.js'
 import uploadsRoutes from './routes/uploads.js'
+import faqsRoutes from './routes/faqs.js'
 import { initDb } from './db/init.js'
 
 const app = express()
@@ -24,6 +26,7 @@ app.use('/api/auth', authRoutes)
 app.use('/api/stands', standsRoutes)
 app.use('/api/requests', requestsRoutes)
 app.use('/api/uploads', uploadsRoutes)
+app.use('/api/faqs', faqsRoutes)
 
 app.listen(PORT, () => {
   console.log(`Server started on http://localhost:${PORT}`)

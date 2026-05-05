@@ -30,28 +30,61 @@ const mapStand = (stand) => {
 router.get('/', (req, res) => {
   const { mall, search, admin } = req.query
 
-  let query = `SELECT * FROM stands WHERE 1 = 1`
+  const isAdmin = admin === '1'
+
+  const page = Math.max(Number(req.query.page) || 1, 1)
+  const limit = Math.min(Math.max(Number(req.query.limit) || 3, 1), 100)
+  const offset = (page - 1) * limit
+
+  let whereQuery = `WHERE 1 = 1`
   const params = []
 
-  if (admin !== '1') {
-    query += ` AND is_active = 1`
+  if (!isAdmin) {
+    whereQuery += ` AND is_active = 1`
   }
 
   if (mall) {
-    query += ` AND mall_name = ?`
+    whereQuery += ` AND mall_name = ?`
     params.push(mall)
   }
 
   if (search) {
-    query += ` AND (title LIKE ? OR mall_name LIKE ?)`
+    whereQuery += ` AND (title LIKE ? OR mall_name LIKE ?)`
     params.push(`%${search}%`, `%${search}%`)
   }
 
-  query += ` ORDER BY id DESC`
+  const totalResult = db
+    .prepare(`SELECT COUNT(*) as total FROM stands ${whereQuery}`)
+    .get(...params)
 
-  const stands = db.prepare(query).all(...params).map(mapStand)
+  let query = `
+    SELECT *
+    FROM stands
+    ${whereQuery}
+    ORDER BY id DESC
+  `
 
-  res.json(stands)
+  const queryParams = [...params]
+
+  if (!isAdmin) {
+    query += ` LIMIT ? OFFSET ?`
+    queryParams.push(limit, offset)
+  }
+
+  const stands = db
+    .prepare(query)
+    .all(...queryParams)
+    .map(mapStand)
+
+  res.json({
+    data: stands,
+    meta: {
+      total: totalResult.total,
+      page,
+      limit: isAdmin ? totalResult.total : limit,
+      totalPages: isAdmin ? 1 : Math.ceil(totalResult.total / limit)
+    }
+  })
 })
 
 router.get('/malls', (_req, res) => {
@@ -63,7 +96,9 @@ router.get('/malls', (_req, res) => {
 })
 
 router.get('/:slug', (req, res) => {
-  const stand = db.prepare(`SELECT * FROM stands WHERE slug = ? AND is_active = 1`).get(req.params.slug)
+  const stand = db
+    .prepare(`SELECT * FROM stands WHERE slug = ? AND is_active = 1`)
+    .get(req.params.slug)
 
   if (!stand) {
     return res.status(404).json({ message: 'Точка не найдена' })

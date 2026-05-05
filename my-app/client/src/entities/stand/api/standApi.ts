@@ -1,15 +1,16 @@
 import { baseApi } from '@/shared/api/baseApi'
-import type { MallOption, Stand, StandPayload } from '@/entities/stand/model/types'
+import type { MallOption, Stand, StandPayload, StandsResponse } from '@/entities/stand/model/types'
 
 export const standApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getStands: builder.query<Stand[], { mall?: string; search?: string; admin?: boolean } | void>({
+    getStands: builder.query<StandsResponse, {page?: number, mall?: string; search?: string; admin?: boolean } | void>({
       query: (params) => {
         const searchParams = new URLSearchParams()
 
         if (params?.mall) searchParams.set('mall', params.mall)
         if (params?.search) searchParams.set('search', params.search)
         if (params?.admin) searchParams.set('admin', '1')
+        if (params?.page) searchParams.set('page', String(params.page))
 
         const queryString = searchParams.toString()
         return `/stands${queryString ? `?${queryString}` : ''}`

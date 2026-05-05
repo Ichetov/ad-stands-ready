@@ -1,6 +1,7 @@
 
-import type { ChangeEvent } from 'react'
-import styles from './StandFilters.module.css'
+import { useEffect, useRef, useState, type ChangeEvent } from 'react';
+import styles from './StandFilters.module.css';
+import SelectIcon from './../../../assets/IconArrow.svg'
 
 type Props = {
   mall: string
@@ -17,28 +18,78 @@ export const StandFilters = ({
   onMallChange,
   onSearchChange
 }: Props) => {
+  const [open, setOpen] = useState(false)
+  const dropdownRef = useRef<HTMLDivElement | null>(null)
+
+  console.log(open)
+
+  useEffect(() => {
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(event.target as Node)
+    ) {
+      console.log('mouse')
+      setOpen(false)
+    }
+  }
+
+  document.addEventListener('mousedown', handleClickOutside)
+
+  return () => {
+    document.removeEventListener('mousedown', handleClickOutside)
+  }
+}, [])
+
   return (
     <div className={styles.filters}>
       <input
-        className="input"
+        className={`input ${styles.input}`}
         type="text"
         placeholder="Поиск по названию или ТЦ"
         value={search}
         onChange={(e: ChangeEvent<HTMLInputElement>) => onSearchChange(e.target.value)}
       />
 
-      <select
-        className="select"
-        value={mall}
-        onChange={(e) => onMallChange(e.target.value)}
-      >
-        <option value="">Все ТЦ</option>
+
+<div ref={dropdownRef} className={styles.selectWrapper}>
+  <div className={`${styles.selectBox} ${open ? styles.open : ''}`}>
+    <div
+      className={styles.trigger}
+      onClick={() => setOpen((prev) => !prev)}
+    >
+      <span>{mall || 'Все ТЦ'}</span>
+      <img src={SelectIcon} alt="" className={open ? styles.img : ''} />
+    </div>
+
+    {open && (
+      <div className={styles.dropdown}>
+        <div
+          className={styles.option}
+          onClick={() => {
+            setOpen(false)
+            onMallChange('')
+          }}
+        >
+          Все ТЦ
+        </div>
+
         {malls.map((mallName) => (
-          <option key={mallName} value={mallName}>
+          <div
+            className={styles.option}
+            key={mallName}
+            onClick={() => {
+              setOpen(false)
+              onMallChange(mallName)
+            }}
+          >
             {mallName}
-          </option>
+          </div>
         ))}
-      </select>
+      </div>
+    )}
+  </div>
+</div>
     </div>
   )
 }

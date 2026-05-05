@@ -8,7 +8,11 @@ import { AdminStandCreatePage } from '@/pages/admin-stand-create/ui/AdminStandCr
 import { AdminStandEditPage } from '@/pages/admin-stand-edit/ui/AdminStandEditPage'
 import { ProtectedAdminRoute } from '@/processes/protected-admin-route/ui/ProtectedAdminRoute'
 import { AdminLayout } from '@/widgets/admin-layout/ui/AdminLayout'
-import { createBrowserRouter } from 'react-router'
+import { createBrowserRouter, Navigate } from 'react-router'
+import { NotFoundPage } from '@/shared/ui/NotFoundPage'
+import { AdminRequestsPage } from '@/pages/adnin-requests/ui/AdminRequestsPage'
+import { AdminFAQPage } from '@/pages/admin-faq/ui/AdminFAQPage'
+import { AdminProfilePage } from '@/pages/admin-profile/ui/AdminProfilePage'
 
 export const router = createBrowserRouter([
   {
@@ -27,6 +31,7 @@ export const router = createBrowserRouter([
     path: '/admin/login',
     element: <AdminLoginPage />
   },
+  
   {
     path: '/admin',
     element: <ProtectedAdminRoute />,
@@ -34,6 +39,10 @@ export const router = createBrowserRouter([
       {
         element: <AdminLayout />,
         children: [
+          {
+            index: true,
+            element: <Navigate to="stands" replace />
+          },
           {
             path: 'stands',
             element: <AdminStandsPage />
@@ -45,9 +54,29 @@ export const router = createBrowserRouter([
           {
             path: 'stands/:id/edit',
             element: <AdminStandEditPage />
-          }
+          },
+          {
+            path: 'requests',
+            element: <AdminRequestsPage />
+          },
+          {
+           path: 'faq',
+           element: <AdminFAQPage />
+          },
+          {
+            path: 'profile',
+            element: <AdminProfilePage />
+          },
+            {
+          path: '*',
+          element: <Navigate to="/admin/stands" replace />
+        }
         ]
       }
     ]
+  },
+  {
+    path: '*',
+    element: <NotFoundPage />
   }
 ])

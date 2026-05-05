@@ -1,4 +1,5 @@
 import { db } from './database.js'
+import bcrypt from 'bcryptjs'
 
 export const initDb = () => {
   db.exec(`
@@ -16,6 +17,25 @@ export const initDb = () => {
       created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
     );
 
+    CREATE TABLE IF NOT EXISTS admins (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  login TEXT NOT NULL UNIQUE,
+  email TEXT NOT NULL UNIQUE,
+  password_hash TEXT NOT NULL,
+  reset_token_hash TEXT,
+  reset_token_expires_at TEXT,
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+    CREATE TABLE IF NOT EXISTS faqs (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  question TEXT NOT NULL,
+  answer TEXT NOT NULL,
+  sort_order INTEGER NOT NULL DEFAULT 0,
+  is_active INTEGER NOT NULL DEFAULT 1,
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
     CREATE TABLE IF NOT EXISTS stand_images (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       stand_id INTEGER NOT NULL,
@@ -23,18 +43,36 @@ export const initDb = () => {
       sort_order INTEGER NOT NULL DEFAULT 0,
       FOREIGN KEY (stand_id) REFERENCES stands(id) ON DELETE CASCADE
     );
-
-    CREATE TABLE IF NOT EXISTS requests (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      stand_id INTEGER,
-      client_name TEXT NOT NULL,
-      phone TEXT NOT NULL,
-      email TEXT NOT NULL,
-      message TEXT,
-      created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-      FOREIGN KEY (stand_id) REFERENCES stands(id) ON DELETE SET NULL
-    );
+CREATE TABLE IF NOT EXISTS requests (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  stand_id INTEGER,
+  client_name TEXT NOT NULL,
+  phone TEXT NOT NULL,
+  email TEXT NOT NULL,
+  message TEXT,
+  is_viewed INTEGER NOT NULL DEFAULT 0,
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (stand_id) REFERENCES stands(id) ON DELETE SET NULL
+);
   `)
+const adminCount = db.prepare(`SELECT COUNT(*) as count FROM admins`).get()
+
+if (adminCount.count === 0) {
+  const passwordHash = bcrypt.hashSync('admin12345', 10)
+
+  db.prepare(`
+    INSERT INTO admins (login, email, password_hash)
+    VALUES (?, ?, ?)
+  `).run('admin', 'admin@example.com', passwordHash)
+}
+
+    try {
+    db.prepare(`
+      ALTER TABLE requests ADD COLUMN is_viewed INTEGER NOT NULL DEFAULT 0
+    `).run()
+  } catch (error) {
+
+  }
 
   const count = db.prepare('SELECT COUNT(*) as count FROM stands').get()
 

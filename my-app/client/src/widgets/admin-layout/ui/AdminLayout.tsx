@@ -17,13 +17,16 @@ export const AdminLayout = () => {
         <div className={styles.logo}>Админка</div>
 
         <nav className={styles.nav}>
-          <NavLink to="/admin/stands">Точки</NavLink>
+          <NavLink to="/admin/stands" end>Точки</NavLink>
           <NavLink to="/admin/stands/new">Добавить точку</NavLink>
+          <NavLink to="/admin/requests">Заявки</NavLink>
+          <NavLink to="/admin/faq">FAQ</NavLink>
+          <NavLink to="/admin/profile">Профиль</NavLink>
         </nav>
 
-        <button className="buttonSecondary" type="button" onClick={handleLogout}>
-          Выйти
-        </button>
+    <button className={styles.logout} type="button" onClick={handleLogout}>
+  Выйти
+</button>
       </aside>
 
       <main className={styles.content}>

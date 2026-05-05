@@ -1,9 +1,13 @@
 import { useDeleteStandMutation, useGetStandsQuery } from '@/entities/stand/api/standApi'
 import { Link } from 'react-router'
+import styles from './AdminStandsPage.module.css'
 
 export const AdminStandsPage = () => {
-  const { data: stands = [], isLoading } = useGetStandsQuery({ admin: true })
+  const { data, isLoading } = useGetStandsQuery({ admin: true })
   const [deleteStand] = useDeleteStandMutation()
+
+  const stands = data?.data ?? []
+  
 
   const handleDelete = async (id: number) => {
     const confirmed = window.confirm('Удалить точку?')
@@ -13,47 +17,63 @@ export const AdminStandsPage = () => {
   }
 
   return (
-    <div className="stack24">
-      <div style={{ display: 'flex', justifyContent: 'space-between', gap: 16 }}>
-        <h1 className="sectionTitle">Точки</h1>
+    <div className={styles.page}>
+      <div className={styles.header}>
+        <div>
+          <h1 className="sectionTitle">Точки</h1>
+          <p className={styles.subtitle}>Управление рекламными точками</p>
+        </div>
+
         <Link className="button" to="/admin/stands/new">
           Добавить точку
         </Link>
       </div>
 
-      {isLoading && <div>Загрузка...</div>}
+      {isLoading && <div className={styles.loading}>Загрузка...</div>}
 
       {!isLoading && (
-        <div className="card">
-          <div className="stack16">
-            {stands.map((stand) => (
-              <div
-                key={stand.id}
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: '1fr auto auto',
-                  gap: 12,
-                  alignItems: 'center',
-                  borderBottom: '1px solid #eee',
-                  paddingBottom: 12
-                }}
-              >
-                <div>
-                  <div><strong>{stand.title}</strong></div>
-                  <div>{stand.mallName}</div>
-                  <div>{stand.isActive ? 'Активна' : 'Скрыта'}</div>
+        <div className={styles.card}>
+          {stands.length === 0 ? (
+            <div className={styles.empty}>Точек пока нет</div>
+          ) : (
+            <div className={styles.list}>
+              {stands.map((stand) => (
+                <div key={stand.id} className={styles.item}>
+                  <div className={styles.info}>
+                    <div className={styles.title}>{stand.title}</div>
+                    <div className={styles.mall}>{stand.mallName}</div>
+
+                    <span
+                      className={
+                        stand.isActive
+                          ? `${styles.status} ${styles.active}`
+                          : `${styles.status} ${styles.hidden}`
+                      }
+                    >
+                      {stand.isActive ? 'Активна' : 'Скрыта'}
+                    </span>
+                  </div>
+
+                  <div className={styles.actions}>
+                    <Link
+                      className={styles.edit}
+                      to={`/admin/stands/${stand.id}/edit`}
+                    >
+                      Редактировать
+                    </Link>
+
+                    <button
+                      className={styles.delete}
+                      type="button"
+                      onClick={() => handleDelete(stand.id)}
+                    >
+                      Удалить
+                    </button>
+                  </div>
                 </div>
-
-                <Link className="buttonSecondary" to={`/admin/stands/${stand.id}/edit`}>
-                  Редактировать
-                </Link>
-
-                <button className="buttonSecondary" type="button" onClick={() => handleDelete(stand.id)}>
-                  Удалить
-                </button>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
     </div>

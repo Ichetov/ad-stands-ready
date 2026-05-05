@@ -12,7 +12,7 @@
 html {
   font-family: Arial, Helvetica, sans-serif;
   color: #111;
-  background: #fff;
+  scrollbar-gutter: stable;
 }
 
 body,
@@ -28,6 +28,8 @@ ol {
 
 body {
   min-width: 320px;
+  overflow-y: scroll;
+  background: #f6f8fb;
 }
 
 a {
@@ -51,6 +53,7 @@ img {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  padding-top: 100px;
 }
 
 .pageMain {
@@ -59,8 +62,12 @@ img {
 }
 
 .sectionTitle {
-  font-size: 32px;
-  margin-bottom: 20px;
+  margin: 0 0 12px;
+  color: #111827;
+  font-size: 34px;
+  line-height: 1.15;
+  font-weight: 850;
+  letter-spacing: -0.03em;
 }
 
 .card {
@@ -80,18 +87,45 @@ img {
   outline: none;
 }
 
+
+
 .textarea {
   min-height: 120px;
-  resize: vertical;
+  resize: none;
 }
 
 .button {
   border: none;
-  background: #111;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
   color: #fff;
   padding: 12px 18px;
-  border-radius: 10px;
   cursor: pointer;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(37, 99, 235, 0.45);
+  background-color: linear-gradient(135deg, #1d4ed8, #1e40af);
+}
+
+.button:active {
+  transform: translateY(0);
+  box-shadow: 0 6px 14px rgba(37, 99, 235, 0.3);
+}
+
+.button:focus-visible{
+  outline: 2px solid #93c5fd;
+  outline-offset: 2px;
+
 }
 
 .buttonSecondary {
@@ -119,6 +153,7 @@ img {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  max-width: 600px;
 }
 
 .stack24 {
@@ -127,8 +162,81 @@ img {
   gap: 24px;
 }
 
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 28px;
+  flex-wrap: wrap;
+}
+
+.paginationPages {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.paginationButton,
+.paginationPage {
+  min-width: 40px;
+  height: 40px;
+  padding: 0 14px;
+  border: 1px solid #d7dde8;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #1f2937;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.15s ease;
+}
+
+.paginationButton:hover:not(:disabled),
+.paginationPage:hover:not(:disabled) {
+  background: #f3f6fb;
+  border-color: #aeb8c8;
+  transform: translateY(-1px);
+}
+
+.paginationPageActive {
+  background: #2563eb;
+  border-color: #2563eb;
+  color: #ffffff;
+  cursor: default;
+}
+
+.paginationButton:disabled,
+.paginationPage:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+@media (max-width: 480px) {
+  .pagination {
+    gap: 6px;
+  }
+
+  .paginationButton,
+  .paginationPage {
+    min-width: 36px;
+    height: 36px;
+    padding: 0 10px;
+    font-size: 13px;
+  }
+}
+
 @media (max-width: 768px) {
   .grid2 {
     grid-template-columns: 1fr;
   }
+  .select {
+    font-size: 16px;
+  }
 }
+

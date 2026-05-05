@@ -6,12 +6,16 @@
     "dev": "node index.js"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.3",
     "better-sqlite3": "^11.7.0",
     "cors": "^2.8.5",
+    "dotenv": "^17.4.2",
     "express": "^4.21.2",
-    "multer": "^1.4.5-lts.1"
+    "jsonwebtoken": "^9.0.3",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^8.0.7"
   },
-   "pnpm": {
+  "pnpm": {
     "onlyBuiltDependencies": [
       "better-sqlite3"
     ]

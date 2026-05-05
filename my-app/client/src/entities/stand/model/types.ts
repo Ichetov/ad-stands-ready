@@ -12,6 +12,16 @@ export type Stand = {
   images: string[]
 }
 
+export type StandsResponse = {
+  data: Stand[]
+  meta: {
+    total: number
+    page: number
+    limit: number
+    totalPages: number
+  }
+}
+
 export type StandPayload = {
   slug: string
   title: string

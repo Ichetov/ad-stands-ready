@@ -1,14 +1,19 @@
-export const ADMIN_LOGIN = 'admin'
-export const ADMIN_PASSWORD = 'admin123'
-export const ADMIN_TOKEN = 'super-admin-token'
+import jwt from 'jsonwebtoken'
 
 export const authMiddleware = (req, res, next) => {
   const authHeader = req.headers.authorization
-  const token = authHeader?.replace('Bearer ', '')
 
-  if (!token || token !== ADMIN_TOKEN) {
-    return res.status(401).json({ message: 'Unauthorized' })
+  if (!authHeader) {
+    return res.status(401).json({ message: 'Нет токена' })
   }
 
-  next()
+  const token = authHeader.replace('Bearer ', '')
+
+  try {
+    const payload = jwt.verify(token, process.env.JWT_SECRET)
+    req.user = payload
+    next()
+  } catch {
+    return res.status(401).json({ message: 'Неверный токен' })
+  }
 }
