@@ -10,11 +10,11 @@ export const Header = () => {
       <div className="container">
         <div className={styles.inner}>
           <Link className={styles.logo} to="/">
-            AdStands
+            StandZone
           </Link>
           <nav className={`${styles.nav} ${open ? styles.open : ""}`}>
-            <NavLink onClick={handleLinkClick} to="/">Главная</NavLink>
-            <NavLink onClick={handleLinkClick} to="/request">Отправить запрос</NavLink>
+          <NavLink onClick={handleLinkClick} to="/">Главная</NavLink>
+           <NavLink onClick={handleLinkClick} to="/request">Отправить запрос</NavLink>
           </nav>
            <button
             className={`${styles.burger} ${open ? styles.active : ""}`}
