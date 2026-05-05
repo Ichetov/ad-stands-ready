@@ -24,3 +24,11 @@ dist-ssr
 *.sw?
 .env
 .env.local
+
+# SQLite database files
+db/*.db
+db/*.db-shm
+db/*.db-wal
+
+# Uploaded files
+uploads/
